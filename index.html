@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cartucho · Catálogo de juegos indie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0820;--panel:#1a1038;--ink:#f1e9ff;--mut:#9d8fc4;--cy:#2de2e6;--mg:#ff2a9d;--vi:#8a5cff;--line:#ffffff1f}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:'Rubik',system-ui,sans-serif;min-height:100vh;
+  background:
+   linear-gradient(#ffffff08 1px,transparent 1px) 0 0/100% 34px,
+   linear-gradient(90deg,#ffffff08 1px,transparent 1px) 0 0/34px 100%,
+   radial-gradient(ellipse 800px 400px at 50% -5%,#ff2a9d33,transparent 70%),
+   var(--bg)}
+header{padding:44px 5vw 18px;max-width:1300px;margin:0 auto}
+.logo{font-family:'Orbitron',sans-serif;font-size:12px;letter-spacing:.35em;color:var(--cy);border:1px solid var(--cy);padding:5px 12px;border-radius:4px;box-shadow:0 0 12px #2de2e655}
+h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(28px,4.6vw,54px);line-height:1.05;margin:16px 0 10px;text-transform:uppercase}
+h1 span{color:var(--mg);text-shadow:0 0 18px var(--mg)}
+header p{max-width:60ch;color:var(--mut);font-size:15px;line-height:1.55;margin:0}
+.tot{margin-top:22px;font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:.15em;color:var(--mut);text-transform:uppercase}
+.tot b{color:var(--cy);font-weight:700}
+.bar{max-width:1300px;margin:0 auto;padding:6px 5vw;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.lbl{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--cy);text-transform:uppercase;min-width:54px}
+.chip,.sort{font:500 12px 'Rubik',sans-serif;padding:5px 11px;border:1px solid var(--line);border-radius:99px;background:#ffffff0a;color:var(--ink);cursor:pointer;transition:all .15s}
+.chip:hover,.sort:hover{border-color:var(--cy);color:var(--cy)}
+.chip.on,.sort.on{background:var(--mg);border-color:var(--mg);color:#fff;box-shadow:0 0 12px #ff2a9d88}
+.chip small{opacity:.6;margin-left:4px}
+.ed3{--c:#3ddc97}.ed7{--c:#2de2e6}.ed12{--c:#ffd23f}.ed16{--c:#ff9a3d}.ed18{--c:#ff4d6d}
+.chip[class*=ed]{border-color:var(--c)}
+.chip.on[class*=ed]{background:var(--c);border-color:var(--c);color:#14092b;box-shadow:0 0 12px var(--c)}
+#q{padding:6px 14px;border:1px solid var(--line);border-radius:99px;background:#ffffff0a;color:var(--ink);font:400 13px 'Rubik';min-width:180px;outline:none}
+#q:focus{border-color:var(--cy)}
+.count{max-width:1300px;margin:4px auto 0;padding:0 5vw;color:var(--mut);font-size:12px}
+main{max-width:1300px;margin:0 auto;padding:12px 5vw 70px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 20px 18px;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:all .15s}
+.card:hover{border-color:var(--cy);box-shadow:0 0 16px #2de2e644;transform:translateY(-2px)}
+.top{display:flex;justify-content:space-between;align-items:center}
+.emo{font-size:36px;line-height:1}
+.age{font-family:'Orbitron',sans-serif;font-weight:700;font-size:11px;background:var(--c,#2de2e6);color:#14092b;border-radius:6px;padding:3px 8px}
+.card h2{font-size:18px;font-weight:600;line-height:1.2;margin:4px 0 0}
+.gl{font-size:11.5px;color:var(--cy);letter-spacing:.04em}
+.syn{font-size:14px;line-height:1.6;color:#d6cdf0;margin:0;flex:1}
+.sys{font-size:11.5px;color:var(--mut)}
+.card .sys{margin-top:4px;padding-top:10px;border-top:1px dashed var(--line)}
+.cr{display:flex;align-items:center;gap:8px;font-size:12px;background:#0d082088;border:1px dashed var(--line);border-radius:8px;padding:7px 10px}
+.cr b{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.15em;color:var(--cy);text-transform:uppercase}
+.cr code{flex:1;font-family:ui-monospace,Consolas,monospace;color:var(--cy);letter-spacing:.04em;word-break:break-all}
+.cr code.empty{color:var(--mut);font-style:italic;letter-spacing:0}
+.cp2{font:500 11px 'Rubik';padding:3px 10px;border-radius:6px;border:0;background:var(--cy);color:#14092b;cursor:pointer}
+.key{position:absolute;right:18px;bottom:14px;font-size:13px}
+.empty{grid-column:1/-1;text-align:center;padding:40px;color:var(--mut)}
+.ov{position:fixed;inset:0;background:#05020fcc;backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:20px;z-index:9}
+.ov.open{display:flex}
+.modal{background:var(--panel);border:1px solid var(--vi);border-radius:14px;box-shadow:0 0 40px #8a5cff55;max-width:440px;width:100%;padding:24px;position:relative}
+.modal .x{position:absolute;top:12px;right:12px;width:30px;height:30px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer}
+.modal h2{font-family:'Orbitron',sans-serif;font-size:19px;margin:12px 0 8px}
+.modal .age{font-size:11px;padding:3px 8px}
+.gen{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.gen span{font-size:11px;border:1px solid var(--line);border-radius:99px;padding:2px 9px;color:var(--cy)}
+.modal p{color:var(--mut);font-size:14px;line-height:1.55;margin:8px 0}
+.lblc{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--cy);text-transform:uppercase;margin-top:14px}
+.code{display:flex;gap:8px;align-items:center;margin-top:6px;border:1px dashed var(--cy);border-radius:8px;padding:8px 10px;background:#0d082088}
+.code code{flex:1;font-family:ui-monospace,Consolas,monospace;font-size:13.5px;letter-spacing:.06em;color:var(--cy);word-break:break-all}
+.code code.empty{color:var(--mut);font-style:italic;letter-spacing:0}
+.cp{font:500 12px 'Rubik';padding:5px 12px;border-radius:6px;border:0;background:var(--cy);color:#14092b;cursor:pointer}
+.cp:disabled{opacity:.3;cursor:default}
+.go{display:inline-block;margin-top:16px;background:var(--mg);color:#fff;font-weight:500;text-decoration:none;border-radius:8px;padding:8px 15px;box-shadow:0 0 14px #ff2a9d77;font-size:13px}
+footer{text-align:center;padding:26px;font-size:11.5px;color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">CARTUCHO</span>
+  <h1>Mundos tranquilos,<br><span>chispas</span> de neón.</h1>
+  <p>Una colección de juegos indie para perderse sin prisa — de los que se juegan de noche, con la ciudad dormida y la pantalla como única luz.</p>
+  <div class="tot">Juegos en la colección: <b id="countLabel">0</b></div>
+</header>
+
+<div class="bar"><span class="lbl">Edad</span><span id="ages"></span></div>
+<div class="bar"><span class="lbl">Género</span><span id="gens"></span></div>
+<div class="bar">
+  <span class="lbl">Orden</span>
+  <button class="sort on" data-s="add">Añadidos</button>
+  <button class="sort" data-s="az">A → Z</button>
+  <button class="sort" data-s="age">Edad ↑</button>
+  <input id="q" type="search" placeholder="Buscar juego…">
+</div>
+<div class="count" id="count"></div>
+<main><div class="grid" id="grid"></div></main>
+
+<div class="ov" id="ov"><div class="modal" id="modal"></div></div>
+<footer>Edades orientativas (estilo PEGI)</footer>
+
+<script>
+/* ====== CÓDIGOS ======  "Título exacto": "CÓDIGO"  (también puedes ponerlo al final de la línea del juego) */
+const CODES = {
+  // "Celeste": "AAAAA-BBBBB-CCCCC",
+  // "TUNIC": "AAAAA-BBBBB-CCCCC",
+};
+
+/* [título, sistemas, edad, géneros, emoji, descripción, código] — pon el código en el último campo ("") */
+const GAMES = [
+["Neversong","PC / Linux",12,"Aventura,Plataformas","🎹","Un chico despierta de un coma en un mundo que se ha vuelto una pesadilla y debe rescatar a su amiga. Aventura de plataformas con ambiente de cuento oscuro.",""],
+["Guacamelee! Super Turbo Championship","PC",12,"Plataformas,Acción","🥊","Juan, un humilde agavero, se convierte en luchador enmascarado para salvar a su amada del Mundo de los Muertos. Metroidvania de combos y humor, con aire de folclore mexicano.",""],
+["10 Second Ninja X","PC",12,"Acción,Puzles","🥷","Tienes que eliminar a todos los robots de cada nivel en diez segundos o menos. Plataformas de reflejos y planificación donde repetir es parte de la gracia.",""],
+["Tengami","PC / Mac",3,"Aventura,Puzles","📖","Aventura en el Japón feudal donde el mundo es un libro pop-up: plegando y desplegando el papel resuelves los puzles. Tranquila y muy bonita, con estética de origami.",""],
+["Claws of Furry","PC",12,"Acción,Cooperativo","🐱","Un gato ninja atraviesa decenas de niveles a golpes para rescatar a su maestro. Beat 'em up arcade con modo rogue-like, arena y cooperativo local para hasta cuatro.",""],
+["Skully","PC",7,"Plataformas,Aventura","💀","Una calavera cobra vida en una isla misteriosa y debe rodar, saltar y moldear arcilla para salvar a sus habitantes. Plataformas 3D con mucho humor.",""],
+["SuchArt: Genius Artist Simulator","PC",7,"Simulación","🎨","Simulador de pintor: mezcla colores, crea lienzos y véndelos mientras haces crecer tu fama. Un taller de artista en el que lo creativo manda.",""],
+["Beat Cop","PC / Mac / Linux / GeForce Now",16,"Narrativa,Simulación","🚓","Jack Kelly, policía caído en desgracia en el Brooklyn de 1983, tiene 21 días para limpiar su nombre. Patrullas, multas, mafias y decisiones morales en pixel art.",""],
+["Genesis Noir","PC",12,"Narrativa,Aventura","🌌","Un hombre de cine negro intenta evitar un disparo mientras el universo nace con el Big Bang. Aventura artística y surrealista, a medio camino entre jazz y cosmos.",""],
+["Laika: Aged Through Blood","PC",18,"Acción,Aventura","🏍️","En un mundo post-apocalíptico habitado por animales, Laika, una coyote, busca venganza sobre su moto. Metroidvania de combate y disparos, con mucha sangre.",""],
+["Stray Path","PC",7,"Estrategia,Roguelite","🃏","Roguelike de cartas que se juega como el FreeCell: eliges un aventurero y recorres un mundo aleatorio arrastrando cartas de habilidades y objetos. Cada decisión importa.",""],
+["Manifold Garden","PC",3,"Puzles,Exploración","🌀","Puzles en primera persona en una arquitectura infinita donde puedes girar la gravedad hacia cualquier cara. Una experiencia relajante y de gran belleza geométrica.",""],
+["12 is Better Than 6","PC / Mac / Linux",18,"Acción","🔫","Shooter top-down de ritmo rápido con estética de western. Cada nivel es un tiroteo que se resuelve con precisión, reflejos y ensayo y error.",""],
+["Human: Fall Flat","PC / Mac / Linux / GeForce Now",7,"Puzles,Cooperativo","🤸","Bob, un muñeco sin huesos, camina por sueños surrealistas resolviendo puzles de físicas. Se puede jugar en cooperativo, entre risas y caídas.",""],
+["Lil Gator Game","PC",3,"Aventura,Exploración","🐊","Un pequeño caimán monta un juego épico en la isla para que su hermana mayor vuelva a jugar con él. Exploración tierna con aire a Zelda.",""],
+["Nova Lands","PC",7,"Simulación,Exploración","🚀","Explora planetas, extrae recursos, construye fábricas y automatiza la producción para llegar más lejos. Supervivencia y automatización en el espacio.",""],
+["Asterix &amp; Obelix Slap Them All! 2","PC",7,"Acción,Cooperativo","🛡️","Los irreductibles galos vuelven a repartir tortas en un beat 'em up lleno de humor y poción mágica. Se juega solo o en cooperativo.",""],
+["Wildfire","PC",12,"Acción,Sigilo","🔥","Te acusan de ser bruja por tus poderes elementales y huyes de los ejércitos de la Archiduquesa. Sigilo 2D en el que prendes fuego, congelas agua y mueves la tierra para rescatar a tus vecinos.",""],
+["Spiritfarer: Farewell Edition","PC / Mac / Linux",7,"Simulación,Narrativa","⛵","Eres Stella, barquera de espíritus: construyes tu barco, cuidas a tus pasajeros y los acompañas hasta el más allá. Gestión cálida y emotiva sobre decir adiós.",""],
+["Sclash","PC",12,"Acción","⚔️","Duelos de espada a vida o muerte en los que ganas con paciencia, lectura del rival y un golpe certero. Combate samurái minimalista, solo o contra otra persona.",""],
+["Venba","PC",7,"Narrativa,Puzles","🍛","Una madre india emigra a Canadá y conserva sus recetas tamiles mientras su familia se adapta a un nuevo país. Puzles de cocina y una historia muy humana.",""],
+["Monster Tribe","PC",12,"Aventura,Estrategia","👹","En la isla de Akama, una Grieta devora el mundo y tú puedes convocar a las Ateyan, criaturas mágicas que debes reunir y entrenar. Exploración con combates por turnos.",""],
+["Sable","PC",12,"Aventura,Exploración","🏜️","Sable, una joven nómada, deja su clan para su rito de iniciación: recorrer el desierto en una moto flotante. Exploración libre y sin combate, con un estilo que recuerda a Moebius.",""],
+["One Hand Clapping","PC",3,"Plataformas,Puzles","🎤","Plataformas musical que se controla con tu voz: cantas, tarareas y silbas para avanzar. Necesitas un micrófono.",""],
+["Omno","PC",3,"Aventura,Exploración","✨","Un viajero silencioso recorre mundos coloridos resolviendo puzles y descubriendo antiguas civilizaciones. Aventura serena, sin prisas.",""],
+["The Forest Quartet","PC",12,"Narrativa,Puzles","🎻","Eres el espíritu de la cantante de una banda que ya no está y ayudas a sus compañeros a superar el duelo, en tres actos. Puzles, voz y un concierto de despedida.",""],
+["Moonlighter","PC / Mac / Linux / GeForce Now",12,"Roguelite,Aventura","🌙","Will regenta una tienda de día y se adentra de noche en mazmorras para conseguir el botín que luego vende. Gestión de tienda más roguelite de acción.",""],
+["Neon Abyss","PC / GeForce Now",16,"Roguelite,Acción","💥","Desciende por un abismo neón disparando a dioses y monstruos, acumulando objetos que se combinan de formas imprevisibles. Shooter roguelite de plataformas, rápido y caótico.",""],
+["Dordogne","PC / GeForce Now",7,"Narrativa,Exploración","🏡","Mimi, ya adulta, vuelve a la casa de su abuela en el sur de Francia y revive los veranos de su infancia. Aventura narrativa pintada a acuarela.",""],
+["Bramble: The Mountain King","PC / GeForce Now",16,"Aventura,Terror","🌲","Olle sale en busca de su hermana desaparecida y se adentra en un bosque habitado por criaturas del folclore nórdico. Cuento oscuro entre plataformas y terror.",""],
+["Apico","PC / Mac / Linux",3,"Simulación","🐝","Cría abejas, cruza especies y mejora tus colmenas hasta crear la abeja perfecta, mientras exploras islas y automatizas. Simulación relajada y adictiva.",""],
+["Journey","PC",7,"Aventura,Exploración","🧣","Un viajero con capa roja cruza un vasto desierto hacia una montaña lejana, a veces acompañado por un desconocido. Aventura silenciosa, sin diálogos.",""],
+["Flower","PC",3,"Exploración","🌸","Controlas el viento y guías pétalos por campos y ciudades, devolviendo vida y color al paisaje. Una experiencia relajante y poética.",""],
+["Children of Morta: Complete Edition","PC / Mac / Linux",16,"Roguelite,Acción","🛡","La familia Bergson defiende el monte Morta de una oscura corrupción. Roguelite de acción donde cada miembro tiene sus habilidades y la historia avanza con cada intento.",""],
+["Hob","PC",7,"Aventura,Exploración","🤖","Hob despierta en un mundo mecánico y debe repararlo y reparar su propio brazo, sin una sola palabra de diálogo. Aventura de acción y exploración.",""],
+["Citizen Sleeper","PC / Mac",16,"Narrativa","🎲","Eres una conciencia digital en un cuerpo artificial que huye a una estación espacial en ruinas. RPG narrativo en el que cada día tiras dados para decidir cómo sobrevivir.",""],
+["Alisa","PC",16,"Terror,Aventura","🪆","Alisa, una agente real que persigue a un criminal, queda atrapada en una mansión victoriana encantada por muñecos mecánicos. Survival horror al estilo de finales de los 90, con cámaras fijas, fondos pre-renderizados y un humor muy extraño.",""],
+["Alina of the Arena","PC",16,"Roguelite,Estrategia","🏟️","Una gladiadora debe sobrevivir luchando para un público sediento de sangre. Roguelike de cartas y tácticas sobre casillas hexagonales, a medio camino entre Slay the Spire e Into the Breach.",""],
+["Tunche","PC",12,"Acción,Roguelite,Cooperativo","🌴","Beat 'em up roguelite 2D en la selva amazónica, inspirado en el folclore peruano. Héroes distintos se enfrentan a criaturas míticas y a un mal ancestral, solos o en cooperativo.",""],
+["TUNIC","PC",12,"Aventura,Acción","🦊","Un pequeño zorro explora un mundo en ruinas lleno de secretos, enemigos y jefes. Aventura de acción isométrica con aire a Zelda, donde descifrar el manual del juego forma parte del misterio.",""],
+["GRIS","PC",7,"Plataformas,Narrativa","🌊","Gris, una joven perdida en su propio duelo, recorre paisajes pintados a acuarela y va recuperando color y habilidades. Plataformas y puzles casi sin texto, sobre superar una pérdida.",""],
+["Celeste","PC",7,"Plataformas","🏔️","Madeline sube a la montaña Celeste y se enfrenta también a sus propias dudas. Plataformas de precisión exigentes pero justas, con opciones de asistencia y una banda sonora excelente.",""],
+["Braid (Anniversary Edition)","PC",7,"Puzles,Plataformas","⏪","Tim viaja en busca de una princesa mientras manipula el tiempo para resolver puzles. Un clásico del indie cuya historia se reinterpreta por completo al final.",""],
+["F.E.A.R. Collection","PC",18,"Acción,Terror","👁️","Un agente de élite investiga una amenaza paranormal y a una misteriosa niña llamada Alma. Colección del FPS de terror y acción, famoso por sus tiroteos en cámara lenta y su IA enemiga.",""],
+["Overlooting","PC",12,"Roguelite,Estrategia","🎒","Un grupo improbable intenta frenar una oscuridad que corrompe el mundo. Roguelike de gestión de inventario: botín por sets, combinaciones de equipo y un árbol de habilidades que cambia en cada partida.",""],
+["Hue","PC",7,"Puzles,Plataformas","🌈","Hue, un niño, busca a su madre desaparecida y descubre que puede cambiar el color del fondo para hacer desaparecer los obstáculos de ese mismo color. Puzles y plataformas que giran en torno a una rueda de colores.",""]
+].map(([t,s,a,g,e,d,c]) => ({t,s,a,g:g.split(","),e,d,c:c||CODES[t]||""}));
+
+const ED = {3:"ed3",7:"ed7",12:"ed12",16:"ed16",18:"ed18"};
+const st = {age:null, gen:null, sort:"add", q:""};
+const $ = id => document.getElementById(id);
+const plain = t => t.replace(/&amp;/g,"&");
+
+function chips(box, items, key, cls){
+  box.innerHTML = "";
+  items.forEach(([val,label,n]) => {
+    const b = document.createElement("button");
+    b.className = "chip " + (cls ? cls(val) : "") + (st[key]===val ? " on" : "");
+    b.innerHTML = label + (n!=null ? `<small>${n}</small>` : "");
+    b.onclick = () => { st[key] = val; render(); };
+    box.appendChild(b);
+  });
+}
+function render(){
+  const ages = [...new Set(GAMES.map(g=>g.a))].sort((a,b)=>a-b);
+  chips($("ages"), [[null,"Todas",GAMES.length], ...ages.map(a=>[a,"+"+a,GAMES.filter(g=>g.a===a).length])], "age", v=>v?ED[v]:"");
+  const gens = [...new Set(GAMES.flatMap(g=>g.g))].sort();
+  chips($("gens"), [[null,"Todos"], ...gens.map(x=>[x,x])], "gen");
+  document.querySelectorAll(".sort").forEach(b => b.classList.toggle("on", b.dataset.s===st.sort));
+
+  let l = GAMES.filter(g => (!st.age||g.a===st.age) && (!st.gen||g.g.includes(st.gen)) && plain(g.t).toLowerCase().includes(st.q));
+  if(st.sort==="az") l = [...l].sort((a,b)=>plain(a.t).localeCompare(plain(b.t),"es"));
+  if(st.sort==="age") l = [...l].sort((a,b)=>a.a-b.a);
+  $("count").textContent = l.length + (l.length===1 ? " juego" : " juegos");
+  const grid = $("grid"); grid.innerHTML = "";
+  if(!l.length){ grid.innerHTML = '<div class="empty">Ningún juego con esos filtros 🙈</div>'; return; }
+  l.forEach(g => {
+    const c = document.createElement("div"); c.className = "card";
+    c.innerHTML = `<div class="top"><span class="emo">${g.e}</span><span class="age ${ED[g.a]}">+${g.a}</span></div>
+      <h2>${g.t}</h2><div class="gl">${g.g.join(" · ")}</div>
+      <p class="syn">${g.d}</p><div class="sys">${g.s}</div><div class="cr"><b>Code:</b><code class="${g.c?"":"empty"}">${g.c || "sin añadir"}</code>${g.c ? '<button class="cp2">Copiar</button>' : ''}</div>`;
+    const cb = c.querySelector(".cp2");
+    if(cb) cb.onclick = ev => { ev.stopPropagation(); navigator.clipboard.writeText(g.c).then(() => { cb.textContent = "Copiado"; setTimeout(() => cb.textContent = "Copiar", 1500); }); };
+    c.onclick = () => abrir(g);
+    grid.appendChild(c);
+  });
+}
+function abrir(g){
+  $("modal").innerHTML = `<button class="x" aria-label="Cerrar">✕</button>
+    <span class="age ${ED[g.a]}">Edad +${g.a}</span><h2>${g.e} ${g.t}</h2>
+    <div class="gen">${g.g.map(x=>`<span>${x}</span>`).join("")}</div>
+    <p>${g.d}</p><p>Sistemas: ${g.s}</p>
+    <div class="lblc">Código del juego</div>
+    <div class="code"><code class="${g.c?"":"empty"}">${g.c || "Sin código añadido"}</code><button class="cp" ${g.c?"":"disabled"}>Copiar</button></div>
+    <a class="go" target="_blank" rel="noopener" href="https://store.steampowered.com/search/?term=${encodeURIComponent(plain(g.t))}">Buscar en Steam →</a>`;
+  $("modal").querySelector(".x").onclick = cerrar;
+  const cp = $("modal").querySelector(".cp");
+  if(g.c) cp.onclick = () => navigator.clipboard.writeText(g.c).then(() => { cp.textContent = "Copiado"; setTimeout(() => cp.textContent = "Copiar", 1500); });
+  $("ov").classList.add("open");
+}
+function cerrar(){ $("ov").classList.remove("open"); }
+$("ov").onclick = e => { if(e.target===$("ov")) cerrar(); };
+document.onkeydown = e => { if(e.key==="Escape") cerrar(); };
+document.querySelectorAll(".sort").forEach(b => b.onclick = () => { st.sort = b.dataset.s; render(); });
+$("q").oninput = e => { st.q = e.target.value.toLowerCase(); render(); };
+$("countLabel").textContent = GAMES.length;
+render();
+</script>
+</body>
+</html>
